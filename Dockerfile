@@ -1,4 +1,4 @@
-FROM node:18-alpine as builder
+FROM node:18.12.1-alpine as builder
 WORKDIR /opt/nestjs_boilerplate
 RUN npm i -g @nestjs/cli
 # output of 'echo npm' will become std input of 'nest new nestjs-docker'
@@ -18,7 +18,7 @@ CMD npm run start:debug
 
 
 
-FROM node:18-alpine as prod
+FROM node:18.12.1-alpine as prod
 ARG NODE_ENV=prod
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
