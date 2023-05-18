@@ -1,0 +1,50 @@
+version: '2'
+services:
+  
+  nestjs-boilerplate-builder:
+    build: 
+      target: builder
+      context: ./
+      dockerfile: Dockerfile
+    container_name: Nestjs-boilerplate-builder
+    command:  ping  127.0.0.1 -i 30 -c 30
+    networks:
+      - app-network
+
+
+  nestjs-boilerplate-dev:
+    build: 
+      # default -> but this will not builds the builder stage, therefore not able to pick the nest boilerplate
+      target: dev
+      context: ./
+      dockerfile: Dockerfile
+    container_name: Nestjs-boilerplate-dev
+    volumes:
+      - ./:/opt/nestjs-project
+      - /opt/nestjs-project/node_modules
+    ports:
+      - "3000:3000"
+      - "9008:9229"
+    networks:
+      - app-network
+
+  nestjs-boilerplate-prod:
+    build: 
+      target: prod
+      context: ./
+      dockerfile: Dockerfile
+    container_name: Nestjs-boilerplate-prod
+    # volumes:
+    #   - /opt/nestjs-project/node_modules
+    ports:
+      - "3000:3000"
+      - "9008:9229"
+    networks:
+      - app-network
+    
+    
+
+
+networks:
+  app-network:
+    driver: bridge
