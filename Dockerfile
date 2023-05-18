@@ -5,7 +5,7 @@ RUN npm i -g @nestjs/cli
 RUN echo npm | nest new nestjs
 
 
-FROM node:18-alpine as dev
+FROM node:18.12.1-alpine as dev
 WORKDIR /opt/nestjs-project
 # After 'volumes - bind mount' these copy files get overwrite
 # COPY --from=builder /opt/nestjs_boilerplate/nestjs ./
@@ -24,6 +24,5 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install --production
-COPY . .
 COPY --from=dev /opt/nestjs-project/dist ./dist
 CMD ["node", "dist/main"]
